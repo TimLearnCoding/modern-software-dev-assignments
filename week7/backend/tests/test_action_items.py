@@ -22,3 +22,33 @@ def test_create_complete_list_and_patch_action_item(client):
     assert patched["description"] == "Updated"
 
 
+def test_get_single_action_item(client):
+    r = client.post("/action-items/", json={"description": "Test item"})
+    item_id = r.json()["id"]
+
+    r = client.get(f"/action-items/{item_id}")
+    assert r.status_code == 200
+    assert r.json()["description"] == "Test item"
+
+
+def test_get_action_item_not_found(client):
+    r = client.get("/action-items/9999")
+    assert r.status_code == 404
+
+
+def test_delete_action_item(client):
+    r = client.post("/action-items/", json={"description": "To delete"})
+    item_id = r.json()["id"]
+
+    r = client.delete(f"/action-items/{item_id}")
+    assert r.status_code == 204
+
+    r = client.get(f"/action-items/{item_id}")
+    assert r.status_code == 404
+
+
+def test_create_action_item_empty_description_rejected(client):
+    r = client.post("/action-items/", json={"description": ""})
+    assert r.status_code == 422
+
+
