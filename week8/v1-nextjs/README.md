@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Library - V1 (Next.js + SQLite)
 
-## Getting Started
+A job application tracker inspired by Apple's Book Store UI. Create job blocks for different categories, search for real job postings, and track your application progress.
 
-First, run the development server:
+## Tech Stack
+
+- **Frontend**: Next.js 16 (App Router) + Tailwind CSS
+- **Backend**: Next.js API Routes
+- **Database**: SQLite via Prisma ORM
+- **Icons**: Lucide React
+- **Job Data**: Arbeitnow API + Remotive API (free, no key required) + mock fallback
+
+## Prerequisites
+
+- Node.js 18+
+- npm
+
+## Setup & Run
 
 ```bash
+# Install dependencies
+npm install
+
+# Generate Prisma client + create database
+npx prisma generate
+npx prisma migrate dev --name init
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Job Blocks**: Create categorized blocks (like books) for different job types
+- **Real Job Search**: Fetches live job postings from free APIs (Arbeitnow, Remotive)
+- **Resume Upload**: Upload a resume for keyword-based job matching
+- **One-Click Apply**: Opens the external job page and auto-archives to "Applied"
+- **Job Detail Modal**: LinkedIn-style popup with full job description
+- **Auto-Refill**: Automatically searches for more jobs when count is low
+- **CRUD**: Full create, read, update, delete for blocks and jobs
 
-## Learn More
+## Environment
 
-To learn more about Next.js, take a look at the following resources:
+No API keys required. The app uses free, public job search APIs by default with a mock data fallback.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Known Issues / Deviations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Resume parsing works best with `.txt` files; PDF parsing is basic (text extraction only)
+- Job search quality depends on free API availability; mock data fills gaps automatically
+- Single-user mode (no authentication)
